@@ -1,0 +1,16 @@
+version: '3.9'
+
+services:
+  proxy:
+    image: kagurazakanyaa/openai-api-proxy:latest
+    restart: unless-stopped
+    network_mode: bridge
+    build:
+      context: .
+      args:
+        HTTPS_PROXY: http://proxy.kagurazakalan.com:10861
+    ports:
+      - 80:80
+    environment:
+      - PROXY_HOST=proxy.kagurazakalan.com
+      - PROXY_PORT=10861
