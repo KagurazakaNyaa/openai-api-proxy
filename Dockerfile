@@ -1,13 +1,11 @@
-FROM alpine/socat:latest
+FROM nginx:stable-alpine
 
-RUN apk --no-cache add stunnel bash
+RUN apk --no-cache add bash socat
 
-ADD openai.conf /etc/stunnel/openai.conf
+ADD openai.conf /etc/nginx/conf.d/openai.conf
 
-ADD docker-entrypoint.sh /docker-entrypoint.sh
-RUN chmod +x /docker-entrypoint.sh
+ADD 00-services.sh /docker-entrypoint.d/00-services.sh
+RUN chmod +x /docker-entrypoint.d/00-services.sh
 
 ENV PROXY_HOST=
 ENV PROXY_PORT=
-
-ENTRYPOINT [ "/docker-entrypoint.sh" ]
